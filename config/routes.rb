@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     scope '/v1' do
       scope '/carriers' do
         post '/' => 'carriers#index'
-
       end
     end
   end
