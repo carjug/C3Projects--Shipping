@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
       scope '/carriers' do
-        get '/:origin/:destination/:packages' => 'carriers#index'
+        post '/' => 'carriers#index'
 
       end
     end
