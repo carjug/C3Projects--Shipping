@@ -13,17 +13,14 @@ class CarriersController < ApplicationController
 
   def index
     fedex_shipping(params[:origin], params[:destination], params[:packages])
-
     @rates = @response.rates
-
     render json: {}
   end
 
   def fedex_shipping(origin, destination, packages)
     origin      = set_origin
     destination = set_destination
-    packages    = set_packages
-
+    packages    = set_packages(params[:packages])
     @response = FEDEX.find_rates(origin, destination, packages)
   end
 
@@ -49,8 +46,8 @@ class CarriersController < ApplicationController
     packages = []
     array.each do |p|
       package = ActiveShipping::Package.new(
-        # p.weight
-        # p.array of dimensions
+        p[0],
+        p[1]
         )
       packages << package
     end
