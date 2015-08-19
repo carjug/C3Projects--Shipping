@@ -1,6 +1,16 @@
 Rails.application.routes.draw do
-  get '/index' => 'carriers#index'
-  get '/fedex_shipping' => 'carriers#fedex_shipping'
+  scope '/api' do
+    scope '/v1' do
+      scope '/carriers' do
+        get '/' => 'carriers#index'
+
+      end
+    end
+  end
+end
+
+
+  # get '/fedex_shipping' => 'carriers#fedex_shipping'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -56,4 +66,3 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-end
