@@ -1,6 +1,7 @@
 require 'active_shipping'
-
 class CarriersController < ApplicationController
+  skip_before_filter :verify_authenticity_token
+
   FEDEX = ActiveShipping::FedEx.new(
     login: ENV["FEDEX_LOGIN"],
     password: ENV["FEDEX_PASSWORD"],
@@ -11,6 +12,7 @@ class CarriersController < ApplicationController
   )
 
   def index
+    binding.pry
     fedex_shipping
 
     @rates = @response.rates
