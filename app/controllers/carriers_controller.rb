@@ -1,7 +1,15 @@
 class CarriersController < ApplicationController
-  def show
-    carrier = Carrier.find_by(id: params[:id])
+  FEDEX = ActiveShipping::FedEx.new(
+    login: ENV["FEDEX_LOGIN"],
+    password: ENV["FEDEX_PASSWORD"],
+    meter: ENV["FEDEX_METER"],
+    key: ENV["FEDEX_KEY"],
+    account: ENV["FEDEX_ACCT_NUM"],
+    test: true
+  )
 
-    render json: carrier
+  
+  def index
+
   end
 end
