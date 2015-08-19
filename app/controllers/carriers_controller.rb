@@ -3,24 +3,23 @@ class CarriersController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   FEDEX = ActiveShipping::FedEx.new(
-    login: ENV["FEDEX_LOGIN"],
+    login:    ENV["FEDEX_LOGIN"],
     password: ENV["FEDEX_PASSWORD"],
-    meter: ENV["FEDEX_METER"],
-    key: ENV["FEDEX_KEY"],
-    account: ENV["FEDEX_ACCT_NUM"],
-    test: true
+    meter:    ENV["FEDEX_METER"],
+    key:      ENV["FEDEX_KEY"],
+    account:  ENV["FEDEX_ACCT_NUM"],
+    test:     true
   )
 
   def index
-    binding.pry
-    fedex_shipping
+    fedex_shipping(params[:origin], params[:destination], params[:packages])
 
     @rates = @response.rates
 
     render json: {}
   end
 
-  def fedex_shipping
+  def fedex_shipping(origin, destination, packages)
     origin      = set_origin
     destination = set_destination
     packages    = set_packages
@@ -28,22 +27,22 @@ class CarriersController < ApplicationController
     @response = FEDEX.find_rates(origin, destination, packages)
   end
 
-  def set_origin(city, state, zip, country)
+  def set_origin
     ActiveShipping::Location.new(
-      city: city,
-      state: state,
-      zip: zip,
-      country: country
-      )
+      city:    params[:origin][:city],
+      state:   params[:origin][:state],
+      zip:     params[:origin][:zip],
+      country: params[:origin][:country]
+    )
   end
 
-  def set_destination(city, state, zip, country)
+  def set_destination
     ActiveShipping::Location.new(
-      city: city,
-      state: state,
-      zip: zip,
-      country: country
-      )
+      city:    params[:destination][:city],
+      state:   params[:destination][:state],
+      zip:     params[:destination][:zip],
+      country: params[:destination][:country]
+    )
   end
 
   def set_packages(array)
