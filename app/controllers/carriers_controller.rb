@@ -11,7 +11,6 @@ class CarriersController < ApplicationController
   )
 
   def index
-    raise
     fedex_shipping
 
     @rates = @response.rates

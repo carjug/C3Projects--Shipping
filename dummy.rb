@@ -7,3 +7,15 @@ d = ActiveShipping::Location.new(country: "US", state: "CA", city: "Beverly Hill
 package = ActiveShipping::Package.new(2, [10, 20, 12])
 
 fedex.find_rates(o, d, [package])
+
+
+HTTParty.post(API_URI,
+  headers: {
+    "Content-Type" => "application/json"
+  },
+
+  body: {
+   origin: ORIGIN,
+   destination: destination,
+   packages: @packages
+ })
