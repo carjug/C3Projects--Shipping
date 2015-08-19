@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/index' => 'carriers#index'
+  get '/fedex_shipping' => 'carriers#fedex_shipping'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
