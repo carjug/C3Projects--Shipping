@@ -7,9 +7,14 @@ class CarriersController < ApplicationController
   # Trying to get rspec tests to work nicely with numbers
 
   def index
-    fedex_shipping(params[:origin], params[:destination], params[:packages])
+    origin      = set_origin
+    destination = set_destination
+    packages    = set_packages(params[:packages])
 
-    @rates = @response.rates
+    fedex_shipping(origin, destination, packages)
+    usps_shipping(origin, destination, packages)
+
+    @rates = [@response_fedex.rates, @response_usps.rates ]
 
     if @rates
       render json: @rates.as_json
@@ -19,11 +24,8 @@ class CarriersController < ApplicationController
   end
 
   def fedex_shipping(origin, destination, packages)
-    origin      = set_origin
-    destination = set_destination
-    packages    = set_packages(params[:packages])
-    fedex       = set_fedex
-    @response   = fedex.find_rates(origin, destination, packages)
+    fedex = set_fedex
+    @response_fedex = fedex.find_rates(origin, destination, packages)
   end
 
   def set_fedex
@@ -35,6 +37,17 @@ class CarriersController < ApplicationController
       account:  ENV["FEDEX_ACCT_NUM"],
       test:     true
     )
+  end
+
+  def usps_shipping(origin, destination, packages)
+    usps = set_usps
+    @response_usps = usps.find_rates(origin, destination, packages)
+  end
+
+  def set_usps
+    ActiveShipping::USPS.new(
+      login:    ENV["USPS_LOGIN"],
+      password: ENV["USPS_PASSWORD"])
   end
 
   def set_origin
