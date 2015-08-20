@@ -2,6 +2,16 @@ require 'active_shipping'
 class CarriersController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
+  SERVICE = ["FedEx 2 Day"]
+  # FedEx First Overnight
+  # FedEx Priority Overnight
+  # FedEx Standard Overnight
+  # FedEx 2 Day Am
+  # FedEx 2 Day
+  # FedEx Express Saver
+  # FedEx 2 Day Saturday Delivery
+  # FedEx Ground Home Delivery
+
   FEDEX = ActiveShipping::FedEx.new(
     login:    ENV["FEDEX_LOGIN"],
     password: ENV["FEDEX_PASSWORD"],
@@ -14,7 +24,14 @@ class CarriersController < ApplicationController
   def index
     fedex_shipping(params[:origin], params[:destination], params[:packages])
     @rates = @response.rates
-    render json: {}
+
+    @rates.each do |rate|
+      if SERVICE.include?(rate.service_name)
+        @rate = rate
+      end
+    end
+
+    render json: @rate
   end
 
   def fedex_shipping(origin, destination, packages)

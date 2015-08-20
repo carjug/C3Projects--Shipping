@@ -1,4 +1,4 @@
-fedex = ActiveShipping::FedEx.new(login:, key:, account:, meter:, tests:true)
+fedex = ActiveShipping::FedEx.new(login:"", key:"", account:"", meter:"", password:"", tests:true)
 
 o = ActiveShipping::Location.new(country: "US", state: "KS", city: "Great Bend", zip: "67530")
 
