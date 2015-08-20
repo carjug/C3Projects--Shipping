@@ -22,6 +22,7 @@ class CarriersController < ApplicationController
   )
 
   def index
+    binding.pry
     fedex_shipping(params[:origin], params[:destination], params[:packages])
     @rates = @response.rates
 
@@ -38,7 +39,7 @@ class CarriersController < ApplicationController
     origin      = set_origin
     destination = set_destination
     packages    = set_packages(params[:packages])
-    @response = FEDEX.find_rates(origin, destination, packages)
+    @response   = FEDEX.find_rates(origin, destination, packages)
   end
 
   def set_origin

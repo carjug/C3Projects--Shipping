@@ -1,8 +1,13 @@
 require 'rails_helper'
+require 'httparty'
 
 RSpec.describe CarriersController, type: :controller do
 
   describe "FedEx API" do
+    let(:uri) {
+      "http://localhost:3001/api/v1/carriers/"
+    }
+
     # let(:fedex) { ActiveShipping::FedEx.new(
     #   login:    ENV["FEDEX_LOGIN"],
     #   password: ENV["FEDEX_PASSWORD"],
@@ -33,32 +38,36 @@ RSpec.describe CarriersController, type: :controller do
     #   ]
     # }
 
-      describe "#index" do
-        # it "is not successful without params" do
-        #   get :index
-
-        #   expect(response).to not_be_successful
-        # end
-
-        it "returns json" do
-          post :index, {"origin"=>{
-            "city"=>"Great Bend",
-            "state"=>"KS",
-            "zip"=>"67530",
-            "country"=>"US"
+    let(:shipping_params) {
+      {"origin"=>{
+              "city"=>"Great Bend",
+              "state"=>"KS",
+              "zip"=>"67530",
+              "country"=>"US"
+              },
+            "destination"=>{
+              "city"=>"SEATTLE",
+              "state"=>"WA",
+              "zip"=>"98112"
             },
-          "destination"=>{
-            "city"=>"SEATTLE",
-            "state"=>"WA",
-            "zip"=>"98112"
-          },
-           "packages"=>[
-            [20, [20, 10, 10]],
-            [20, [20, 10, 10]],
-            [20, [20, 10, 10]]
-          ]
+             "packages"=>[
+              [20, [20, 10, 10]],
+              [20, [20, 10, 10]],
+              [20, [20, 10, 10]]
+            ]
+          }
         }
-          # binding.pry
+
+      describe "#index" do
+        it "accepts json object" do
+          # post :index, shipping_params
+            response = HTTParty.post(
+                uri,
+                headers: {
+                  "Content-Type" => "application/json"
+                },
+                body: shipping_params.to_json
+              )
 
           expect(response.header['Content-Type']).to include 'application/json'
         end
