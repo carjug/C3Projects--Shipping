@@ -6,28 +6,16 @@ class CarriersController < ApplicationController
   before_action :cast_to_i, if: -> { Rails.env.test? }
   # Trying to get rspec tests to work nicely with numbers
 
-  SERVICE = ["FedEx 2 Day"]
-  # FedEx First Overnight
-  # FedEx Priority Overnight
-  # FedEx Standard Overnight
-  # FedEx 2 Day Am
-  # FedEx 2 Day
-  # FedEx Express Saver
-  # FedEx 2 Day Saturday Delivery
-  # FedEx Ground Home Delivery
-
-
   def index
     fedex_shipping(params[:origin], params[:destination], params[:packages])
-    @rates = @response.rates
-    # 
-    # @rates.each do |rate|
-    #   if SERVICE.include?(rate.service_name)
-    #     @rate = rate
-    #   end
-    # end
 
-    render json: @rates.as_json
+    @rates = @response.rates
+
+    if @rates
+      render json: @rates.as_json
+    else
+      render json: {}, status: 204
+    end
   end
 
   def fedex_shipping(origin, destination, packages)
@@ -69,6 +57,7 @@ class CarriersController < ApplicationController
 
   def set_packages(array)
     packages = []
+
     array.each do |p|
       package = ActiveShipping::Package.new(
         p[0],
