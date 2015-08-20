@@ -20,14 +20,14 @@ class CarriersController < ApplicationController
   def index
     fedex_shipping(params[:origin], params[:destination], params[:packages])
     @rates = @response.rates
+    # 
+    # @rates.each do |rate|
+    #   if SERVICE.include?(rate.service_name)
+    #     @rate = rate
+    #   end
+    # end
 
-    @rates.each do |rate|
-      if SERVICE.include?(rate.service_name)
-        @rate = rate
-      end
-    end
-
-    render json: @rate.as_json
+    render json: @rates.as_json
   end
 
   def fedex_shipping(origin, destination, packages)
