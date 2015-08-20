@@ -4,6 +4,7 @@ class CarriersController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   before_action :cast_to_i, if: -> { Rails.env.test? }
+  # Trying to get rspec tests to work nicely with numbers
 
   SERVICE = ["FedEx 2 Day"]
   # FedEx First Overnight
@@ -33,7 +34,7 @@ class CarriersController < ApplicationController
         @rate = rate
       end
     end
-    binding.pry
+
     render json: @rate
   end
 
@@ -45,7 +46,6 @@ class CarriersController < ApplicationController
   end
 
   def set_origin
-    # binding.pry
     ActiveShipping::Location.new(
       city:    params[:origin][:city],
       state:   params[:origin][:state],
@@ -84,10 +84,3 @@ class CarriersController < ApplicationController
     end
   end
 end
-
-
-
-# set fedex_shipping endpoint in routes
-# create a new origin
-# create a new destination
-# create new packages with the info from bEtsy
