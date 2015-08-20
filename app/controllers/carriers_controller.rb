@@ -27,7 +27,7 @@ class CarriersController < ApplicationController
       end
     end
 
-    render json: @rate
+    render json: @rate.as_json
   end
 
   def fedex_shipping(origin, destination, packages)
