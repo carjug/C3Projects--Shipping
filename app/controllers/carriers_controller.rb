@@ -1,6 +1,9 @@
 require 'active_shipping'
 class CarriersController < ApplicationController
+
   skip_before_filter :verify_authenticity_token
+
+  before_action :cast_to_i, if: -> { Rails.env.test? }
 
   SERVICE = ["FedEx 2 Day"]
   # FedEx First Overnight
@@ -22,7 +25,6 @@ class CarriersController < ApplicationController
   )
 
   def index
-    binding.pry
     fedex_shipping(params[:origin], params[:destination], params[:packages])
     @rates = @response.rates
 
@@ -31,7 +33,7 @@ class CarriersController < ApplicationController
         @rate = rate
       end
     end
-
+    binding.pry
     render json: @rate
   end
 
@@ -43,6 +45,7 @@ class CarriersController < ApplicationController
   end
 
   def set_origin
+    # binding.pry
     ActiveShipping::Location.new(
       city:    params[:origin][:city],
       state:   params[:origin][:state],
@@ -71,7 +74,18 @@ class CarriersController < ApplicationController
     end
     return packages
   end
+
+  def cast_to_i
+    params[:packages] = params[:packages].each do |param|
+      param[0] = param[0].to_i
+      param[1].each_with_index do |dimension, index|
+          param[1][index] = dimension.to_i
+      end
+    end
+  end
 end
+
+
 
 # set fedex_shipping endpoint in routes
 # create a new origin

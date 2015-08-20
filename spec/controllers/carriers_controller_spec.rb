@@ -1,21 +1,17 @@
 require 'rails_helper'
-require 'httparty'
+require 'support/vcr_setup'
 
 RSpec.describe CarriersController, type: :controller do
 
   describe "FedEx API" do
-    let(:uri) {
-      "http://localhost:3001/api/v1/carriers/"
-    }
-
-    # let(:fedex) { ActiveShipping::FedEx.new(
-    #   login:    ENV["FEDEX_LOGIN"],
-    #   password: ENV["FEDEX_PASSWORD"],
-    #   meter:    ENV["FEDEX_METER"],
-    #   key:      ENV["FEDEX_KEY"],
-    #   account:  ENV["FEDEX_ACCT_NUM"],
-    #   test: true
-    # ) }
+    let(:login_fedex) { ActiveShipping::FedEx.new(
+      login:    ENV["FEDEX_LOGIN"],
+      password: ENV["FEDEX_PASSWORD"],
+      meter:    ENV["FEDEX_METER"],
+      key:      ENV["FEDEX_KEY"],
+      account:  ENV["FEDEX_ACCT_NUM"],
+      test: true
+    ) }
 
     # let(:origin) {
     #   city: "Great Bend",
@@ -60,16 +56,12 @@ RSpec.describe CarriersController, type: :controller do
 
       describe "#index" do
         it "accepts json object" do
-          # post :index, shipping_params
-            response = HTTParty.post(
-                uri,
-                headers: {
-                  "Content-Type" => "application/json"
-                },
-                body: shipping_params.to_json
-              )
+          VCR.use_cassette('returns json object') do
+            login_fedex
+            post :index, shipping_params, { format: :json }
 
-          expect(response.header['Content-Type']).to include 'application/json'
+            expect(response.header['Content-Type']).to include 'application/json'
+          end
         end
       end
 

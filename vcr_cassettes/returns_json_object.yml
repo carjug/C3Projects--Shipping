@@ -1,0 +1,49 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://gatewaybeta.fedex.com/xml
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0"?><RateRequest xmlns="http://fedex.com/ws/rate/v13">  <WebAuthenticationDetail>    <UserCredential>      <Key/>      <Password/>    </UserCredential>  </WebAuthenticationDetail>  <ClientDetail>    <AccountNumber/>    <MeterNumber/>  </ClientDetail>  <TransactionDetail>    <CustomerTransactionId>ActiveShipping</CustomerTransactionId>  </TransactionDetail>  <Version>    <ServiceId>crs</ServiceId>    <Major>13</Major>    <Intermediate>0</Intermediate>    <Minor>0</Minor>  </Version>  <ReturnTransitAndCommit>true</ReturnTransitAndCommit>  <VariableOptions>SATURDAY_DELIVERY</VariableOptions>  <RequestedShipment>    <ShipTimestamp>2015-08-20T11:26:30-07:00</ShipTimestamp>    <DropoffType>REGULAR_PICKUP</DropoffType>    <PackagingType>YOUR_PACKAGING</PackagingType>    <Shipper>      <Address>        <City>Great
+        Bend</City>        <PostalCode>67530</PostalCode>        <CountryCode>US</CountryCode>        <Residential>true</Residential>      </Address>    </Shipper>    <Recipient>      <Address>        <City>SEATTLE</City>        <PostalCode>98112</PostalCode>        <CountryCode/>        <Residential>true</Residential>      </Address>    </Recipient>    <SmartPostDetail>      <Indicia>PARCEL_SELECT</Indicia>      <HubId>5902</HubId>    </SmartPostDetail>    <RateRequestTypes>ACCOUNT</RateRequestTypes>    <PackageCount>3</PackageCount>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>  </RequestedShipment></RateRequest>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 20 Aug 2015 18:26:26 GMT
+      Server:
+      - Apache
+      Set-Cookie:
+      - siteDC=wtc; path=/; domain=.fedex.com; expires=Fri, 21-Aug-2015 18:26:26 GMT
+      X-Wily-Servlet:
+      - Encrypt1 GaMcoOotgOSMyoYj73M4do6jzTsTnM9gMTlDXzojFD14gj/kKiUD0hJtrJCxJCAkA+WtPkQnYg8RozShsBO0W/raI/E3wjULrwKuWe8FMc7hCluqrYKakwbuWRFI3jsYKlZi6QYLYt5Sc+EGgALe9Q1zDZEU2teUaBwaNM8zSPUzd8NFBZohkh4DHA/lQUmCX0ptNo0Ea6O+3vIigiWj0w==
+      X-Powered-By:
+      - Servlet/2.5 JSP/2.1
+      X-Wily-Info:
+      - Clear guid=4C5CAF1BCC87E0A50E8D2C90A0991D06
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <v13:RateReply xmlns:v13="http://fedex.com/ws/rate/v13" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"> <v13:HighestSeverity>ERROR</v13:HighestSeverity>  <v13:Notifications>     <v13:Severity>ERROR</v13:Severity>     <v13:Source>prof</v13:Source>     <v13:Code>1000</v13:Code>     <v13:Message>Authentication Failed</v13:Message>  </v13:Notifications> <v13:TransactionDetail><v13:CustomerTransactionId>ActiveShipping</v13:CustomerTransactionId> </v13:TransactionDetail>  <v13:Version>     <v13:ServiceId>crs</v13:ServiceId>     <v13:Major>13</v13:Major>     <v13:Intermediate>0</v13:Intermediate>     <v13:Minor>0</v13:Minor>  </v13:Version> </v13:RateReply>
+    http_version: 
+  recorded_at: Thu, 20 Aug 2015 18:26:31 GMT
+recorded_with: VCR 2.9.3
