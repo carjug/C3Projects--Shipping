@@ -34,11 +34,11 @@ RSpec.describe CarriersController, type: :controller do
     # }
 
       describe "#index" do
-        it "is not successful without params" do
-          get :index
+        # it "is not successful without params" do
+        #   get :index
 
-          expect(response).to not_be_successful
-        end
+        #   expect(response).to not_be_successful
+        # end
 
         it "returns json" do
           post :index, {"origin"=>{
