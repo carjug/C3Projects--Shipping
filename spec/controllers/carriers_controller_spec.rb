@@ -4,14 +4,14 @@ require 'support/vcr_setup'
 RSpec.describe CarriersController, type: :controller do
 
   describe "FedEx API" do
-    let(:login_fedex) { ActiveShipping::FedEx.new(
-      login:    ENV["FEDEX_LOGIN"],
-      password: ENV["FEDEX_PASSWORD"],
-      meter:    ENV["FEDEX_METER"],
-      key:      ENV["FEDEX_KEY"],
-      account:  ENV["FEDEX_ACCT_NUM"],
-      test: true
-    ) }
+    # let(:login_fedex) { ActiveShipping::FedEx.new(
+    #   login:    ENV["FEDEX_LOGIN"],
+    #   password: ENV["FEDEX_PASSWORD"],
+    #   meter:    ENV["FEDEX_METER"],
+    #   key:      ENV["FEDEX_KEY"],
+    #   account:  ENV["FEDEX_ACCT_NUM"],
+    #   test: true
+    # ) }
 
     # let(:origin) {
     #   city: "Great Bend",
@@ -54,10 +54,17 @@ RSpec.describe CarriersController, type: :controller do
           }
         }
 
+      describe "set_fedex" do
+        it "has valid ENV credentials" do
+          VCR.use_cassette('set fedex') do
+            expect(controller.send(:set_fedex).valid_credentials?).to eq true
+          end
+        end
+      end
+
       describe "#index" do
         it "accepts json object" do
           VCR.use_cassette('returns json object') do
-            login_fedex
             post :index, shipping_params, { format: :json }
 
             expect(response.header['Content-Type']).to include 'application/json'

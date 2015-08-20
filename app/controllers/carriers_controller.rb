@@ -15,14 +15,6 @@ class CarriersController < ApplicationController
   # FedEx 2 Day Saturday Delivery
   # FedEx Ground Home Delivery
 
-  FEDEX = ActiveShipping::FedEx.new(
-    login:    ENV["FEDEX_LOGIN"],
-    password: ENV["FEDEX_PASSWORD"],
-    meter:    ENV["FEDEX_METER"],
-    key:      ENV["FEDEX_KEY"],
-    account:  ENV["FEDEX_ACCT_NUM"],
-    test:     true
-  )
 
   def index
     fedex_shipping(params[:origin], params[:destination], params[:packages])
@@ -33,7 +25,6 @@ class CarriersController < ApplicationController
         @rate = rate
       end
     end
-    binding.pry
     render json: @rate
   end
 
@@ -41,7 +32,19 @@ class CarriersController < ApplicationController
     origin      = set_origin
     destination = set_destination
     packages    = set_packages(params[:packages])
-    @response   = FEDEX.find_rates(origin, destination, packages)
+    fedex       = set_fedex
+    @response   = fedex.find_rates(origin, destination, packages)
+  end
+
+  def set_fedex
+    ActiveShipping::FedEx.new(
+      login:    ENV["FEDEX_LOGIN"],
+      password: ENV["FEDEX_PASSWORD"],
+      meter:    ENV["FEDEX_METER"],
+      key:      ENV["FEDEX_KEY"],
+      account:  ENV["FEDEX_ACCT_NUM"],
+      test:     true
+    )
   end
 
   def set_origin
@@ -74,6 +77,8 @@ class CarriersController < ApplicationController
     end
     return packages
   end
+
+  # Before action method
 
   def cast_to_i
     params[:packages] = params[:packages].each do |param|
