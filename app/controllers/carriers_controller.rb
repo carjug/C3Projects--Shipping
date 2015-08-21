@@ -12,7 +12,7 @@ class CarriersController < ApplicationController
     packages    = set_packages(params[:packages])
 
     fedex_shipping(origin, destination, packages)
-    usps_shipping(origin, destination, packages)
+    ups_shipping(origin, destination, packages)
 
     @rates = [@response_fedex.rates, @response_usps.rates ]
 
@@ -28,6 +28,11 @@ class CarriersController < ApplicationController
     @response_fedex = fedex.find_rates(origin, destination, packages)
   end
 
+  def ups_shipping(origin, destination, packages)
+    ups = set_ups
+    @response_ups = ups.find_rates(origin, destination, packages)
+  end
+
   def set_fedex
     ActiveShipping::FedEx.new(
       login:    ENV["FEDEX_LOGIN"],
@@ -35,6 +40,17 @@ class CarriersController < ApplicationController
       meter:    ENV["FEDEX_METER"],
       key:      ENV["FEDEX_KEY"],
       account:  ENV["FEDEX_ACCT_NUM"],
+      test:     true
+    )
+  end
+
+  def set_fedex
+    ActiveShipping::UPS.new(
+      login:    ENV["UPS_LOGIN"],
+      password: ENV["UPS_PASSWORD"],
+      meter:    ENV["UPS_METER"],
+      key:      ENV["UPS_KEY"],
+      account:  ENV["UPS_ACCT_NUM"],
       test:     true
     )
   end
