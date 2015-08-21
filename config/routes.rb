@@ -4,6 +4,9 @@ Rails.application.routes.draw do
       scope '/carriers' do
         post '/' => 'carriers#index'
       end
+      scope '/logs' do
+        post '/' => 'logs#create'
+      end
     end
   end
 end
