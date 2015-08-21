@@ -35,24 +35,39 @@ RSpec.describe CarriersController, type: :controller do
     }
   end
 
-    describe "set_fedex" do
-      it "has valid ENV credentials" do
-        VCR.use_cassette('set fedex') do
-          expect(controller.send(:set_fedex).valid_credentials?).to eq true
-        end
+  describe "set_fedex" do
+    it "has valid ENV credentials" do
+      VCR.use_cassette('set fedex') do
+        expect(controller.send(:set_fedex).valid_credentials?).to eq true
       end
     end
+  end
 
-     describe "set_ups" do
-      it "has valid ENV credentials" do
-        VCR.use_cassette('set ups') do
-          expect(controller.send(:set_ups).valid_credentials?).to eq true
-        end
+   describe "set_ups" do
+    it "has valid ENV credentials" do
+      VCR.use_cassette('set ups') do
+        expect(controller.send(:set_ups).valid_credentials?).to eq true
       end
     end
+  end
 
-#not working
   describe "#index" do
+    it "responds successful" do
+      VCR.use_cassette('returns successful status code') do
+        post :index, shipping_params, { format: :json }
+
+        expect(response.response_code).to eq 200
+      end
+    end
+
+    it "responds with 204 when unsuccesful" do
+      VCR.use_cassette('returns unsuccessful status code') do
+        post :index, shipping_params, { format: :json }
+
+        expect(response.response_code).to eq 204
+      end
+    end
+
     it "accepts json object" do
       VCR.use_cassette('returns json object') do
         post :index, shipping_params, { format: :json }

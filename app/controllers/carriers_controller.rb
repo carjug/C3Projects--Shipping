@@ -15,6 +15,7 @@ class CarriersController < ApplicationController
     ups_shipping(origin, destination, packages)
 
     @rates = [@response_fedex.rates, @response_ups.rates ]
+
     if @rates
       render json: @rates.as_json
     else
@@ -24,7 +25,11 @@ class CarriersController < ApplicationController
 
   def fedex_shipping(origin, destination, packages)
     fedex = set_fedex
+    begin
     @response_fedex = fedex.find_rates(origin, destination, packages)
+    rescue
+      flash[:error] = "No connection established"
+    end
   end
 
   def ups_shipping(origin, destination, packages)
