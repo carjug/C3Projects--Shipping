@@ -6,19 +6,17 @@ class CarriersController < ApplicationController
   before_action :cast_to_i, if: -> { Rails.env.test? }
   # Trying to get rspec tests to work nicely with numbers
 
-  Rails.env.test? ? TIMEOUT_SECONDS = 0.01 : TIMEOUT_SECONDS = 40
+  # TIMEOUT_SECONDS = 40
 
   def index
     origin      = set_origin
     destination = set_destination
     packages    = set_packages(params[:packages])
 
-    Timeout::timeout(TIMEOUT_SECONDS) do
+    # Timeout::timeout(TIMEOUT_SECONDS) do
       fedex_shipping(origin, destination, packages)
       ups_shipping(origin, destination, packages)
-    end
-    # if 1 carries returns nil, return @rates but with the carrier as []
-    # also return with a code that says incomplete
+    # end
 
     if @response_ups.nil? && @response_fedex.nil?
       flash[:error] = "Nothing was returned"
