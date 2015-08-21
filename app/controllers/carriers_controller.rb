@@ -12,10 +12,9 @@ class CarriersController < ApplicationController
     packages    = set_packages(params[:packages])
 
     fedex_shipping(origin, destination, packages)
-    usps_shipping(origin, destination, packages)
+    ups_shipping(origin, destination, packages)
 
-    @rates = [@response_fedex.rates, @response_usps.rates ]
-
+    @rates = [@response_fedex.rates, @response_ups.rates ]
     if @rates
       render json: @rates.as_json
     else
@@ -26,6 +25,12 @@ class CarriersController < ApplicationController
   def fedex_shipping(origin, destination, packages)
     fedex = set_fedex
     @response_fedex = fedex.find_rates(origin, destination, packages)
+  end
+
+  def ups_shipping(origin, destination, packages)
+    ups = set_ups
+    @response_ups = ups.find_rates(origin, destination, packages)
+
   end
 
   def set_fedex
@@ -39,15 +44,13 @@ class CarriersController < ApplicationController
     )
   end
 
-  def usps_shipping(origin, destination, packages)
-    usps = set_usps
-    @response_usps = usps.find_rates(origin, destination, packages)
-  end
-
-  def set_usps
-    ActiveShipping::USPS.new(
-      login:    ENV["USPS_LOGIN"],
-      password: ENV["USPS_PASSWORD"])
+  def set_ups
+    ActiveShipping::UPS.new(
+      login:    ENV["UPS_LOGIN"],
+      password: ENV["UPS_PASSWORD"],
+      key:      ENV["UPS_KEY"],
+      test:     true
+    )
   end
 
   def set_origin
