@@ -2,99 +2,63 @@ require 'rails_helper'
 require 'support/vcr_setup'
 
 RSpec.describe CarriersController, type: :controller do
-
-  describe "FedEx API" do
-    # let(:login_fedex) { ActiveShipping::FedEx.new(
-    #   login:    ENV["FEDEX_LOGIN"],
-    #   password: ENV["FEDEX_PASSWORD"],
-    #   meter:    ENV["FEDEX_METER"],
-    #   key:      ENV["FEDEX_KEY"],
-    #   account:  ENV["FEDEX_ACCT_NUM"],
-    #   test: true
-    # ) }
-
-    # let(:origin) {
-    #   city: "Great Bend",
-    #   state: "KS",
-    #   zip: "67530",
-    #   country: "US"
-    # }
-
-    # let(:destination) {
-    #   city: "Beverly Hills",
-    #   state: "CA",
-    #   zip: "90210",
-    #   country: "US"
-    # }
-
-    # let(:packages) {
-    #   [
-    #     [100, [25, 40, 30]]
-    #     [100, [25, 40, 30]
-    #   ]
-    # }
-
-    let(:shipping_params) {
-      {"origin"=>{
+  let(:shipping_params) do
+    {
+      "origin"=>{
               "city"=>"Great Bend",
               "state"=>"KS",
               "zip"=>"67530",
               "country"=>"US"
               },
-            "destination"=>{
-              "city"=>"SEATTLE",
-              "state"=>"WA",
-              "zip"=>"98112"
-            },
-             "packages"=>[
-              [20, [20, 10, 10]],
-              [20, [20, 10, 10]],
-              [20, [20, 10, 10]]
-            ]
-          }
+      "destination"=>{
+            "city"=>"SEATTLE",
+            "state"=>"WA",
+            "zip"=>"98112",
+            "country"=>"US"
+          },
+      "packages"=>[
+          [20, [20, 10, 10]],
+          [20, [20, 10, 10]],
+          [20, [20, 10, 10]]
+          ]
         }
+    end
 
-      describe "set_fedex" do
-        it "has valid ENV credentials" do
-          VCR.use_cassette('set fedex') do
-            expect(controller.send(:set_fedex).valid_credentials?).to eq true
-          end
-        end
-      end
+  let(:origin_params) do
+    {
+      origin: {
+        city:   "Beverly Hills",
+        state:   "CA",
+        zip:     "90210",
+        country: "US"
+      }
+    }
+  end
 
-      describe "#index" do
-        it "accepts json object" do
-          VCR.use_cassette('returns json object') do
-            post :index, shipping_params, { format: :json }
-
-            expect(response.header['Content-Type']).to include 'application/json'
-          end
-        end
-      end
-
-      describe "#shipping" do
-        it "is successful" do
-          get :fedex_shipping, origin: origin, destination: destination, package: package
-
-          expect(response.response_code).to eq 200
+    describe "set_fedex" do
+      it "has valid ENV credentials" do
+        VCR.use_cassette('set fedex') do
+          expect(controller.send(:set_fedex).valid_credentials?).to eq true
         end
       end
     end
 
-    context "sending object to bEtsy" do
-      # it "creates the shipping object" do
-        # get :fedex_shipping, origin: origin, destination: destination, package: package
+     describe "set_ups" do
+      it "has valid ENV credentials" do
+        VCR.use_cassette('set ups') do
+          expect(controller.send(:set_ups).valid_credentials?).to eq true
+        end
+      end
+    end
 
+#not working
+  describe "#index" do
+    it "accepts json object" do
+      VCR.use_cassette('returns json object') do
+        post :index, shipping_params, { format: :json }
 
-      # end
-
-      # describe "#index" do
-      #   it "returns an array of attributes for the FedEx response" do
-      #     get :index,
-
-      #     expect(@rate.class).to be_an_instance_of Array
-      #   end
-      # end
-    # end
+        expect(response.header['Content-Type']).to include 'application/json'
+      end
+    end
   end
 end
