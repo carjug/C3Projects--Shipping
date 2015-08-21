@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/vcr_setup'
+require 'timeout' # dunno if we need this
 
 RSpec.describe CarriersController, type: :controller do
   let(:shipping_params) do
@@ -84,6 +85,15 @@ RSpec.describe CarriersController, type: :controller do
         post :index, shipping_params, { format: :json }
 
         expect(response.header['Content-Type']).to include 'application/json'
+      end
+    end
+
+    it "times out when API request takes too long" do
+      VCR.use_cassette('timeout') do
+        # post :index, shipping_params, { format: :json }
+
+        expect(controller.send(:index)).and_raise(Timeout::Error)
+
       end
     end
   end

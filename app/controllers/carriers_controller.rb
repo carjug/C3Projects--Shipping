@@ -1,19 +1,22 @@
 require 'active_shipping'
+require 'timeout'
+
 class CarriersController < ApplicationController
-
   skip_before_filter :verify_authenticity_token
-
   before_action :cast_to_i, if: -> { Rails.env.test? }
   # Trying to get rspec tests to work nicely with numbers
+
+  Rails.env.test? ? TIMEOUT_SECONDS = 0.01 : TIMEOUT_SECONDS = 40
 
   def index
     origin      = set_origin
     destination = set_destination
     packages    = set_packages(params[:packages])
 
-    fedex_shipping(origin, destination, packages)
-    ups_shipping(origin, destination, packages)
-
+    Timeout::timeout(TIMEOUT_SECONDS) do
+      fedex_shipping(origin, destination, packages)
+      ups_shipping(origin, destination, packages)
+    end
     # if 1 carries returns nil, return @rates but with the carrier as []
     # also return with a code that says incomplete
 
