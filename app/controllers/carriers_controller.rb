@@ -47,7 +47,9 @@ class CarriersController < ApplicationController
   def set_usps
     ActiveShipping::USPS.new(
       login:    ENV["USPS_LOGIN"],
-      password: ENV["USPS_PASSWORD"])
+      password: ENV["USPS_PASSWORD"],
+      test: true
+    )
   end
 
   def set_origin
