@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150818214348) do
+ActiveRecord::Schema.define(version: 20150821201137) do
 
   create_table "carriers", force: :cascade do |t|
     t.string   "name"
@@ -21,10 +21,11 @@ ActiveRecord::Schema.define(version: 20150818214348) do
   end
 
   create_table "logs", force: :cascade do |t|
-    t.string   "request"
-    t.string   "response"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "order_id"
+    t.string   "app_name"
+    t.string   "carrier_service"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end
