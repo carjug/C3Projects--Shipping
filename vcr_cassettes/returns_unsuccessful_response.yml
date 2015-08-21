@@ -1,0 +1,187 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://gatewaybeta.fedex.com/xml
+    body:
+      encoding: UTF-8
+      string: <?xml version="1.0"?><RateRequest xmlns="http://fedex.com/ws/rate/v13">  <WebAuthenticationDetail>    <UserCredential>      <Key>6AMPMTUhvRtrZiyU</Key>      <Password>8sDVC9IVNOK3nktkXLnyyQNKE</Password>    </UserCredential>  </WebAuthenticationDetail>  <ClientDetail>    <AccountNumber>510087682</AccountNumber>    <MeterNumber>118685689</MeterNumber>  </ClientDetail>  <TransactionDetail>    <CustomerTransactionId>ActiveShipping</CustomerTransactionId>  </TransactionDetail>  <Version>    <ServiceId>crs</ServiceId>    <Major>13</Major>    <Intermediate>0</Intermediate>    <Minor>0</Minor>  </Version>  <ReturnTransitAndCommit>true</ReturnTransitAndCommit>  <VariableOptions>SATURDAY_DELIVERY</VariableOptions>  <RequestedShipment>    <ShipTimestamp>2015-08-21T11:43:12-07:00</ShipTimestamp>    <DropoffType>REGULAR_PICKUP</DropoffType>    <PackagingType>YOUR_PACKAGING</PackagingType>    <Shipper>      <Address>        <City>Great
+        Bend</City>        <PostalCode>67530</PostalCode>        <CountryCode>US</CountryCode>        <Residential>true</Residential>      </Address>    </Shipper>    <Recipient>      <Address>        <City>kjgkajgksjdf</City>        <PostalCode>AAAAA</PostalCode>        <CountryCode>US</CountryCode>        <Residential>true</Residential>      </Address>    </Recipient>    <SmartPostDetail>      <Indicia>PARCEL_SELECT</Indicia>      <HubId>5902</HubId>    </SmartPostDetail>    <RateRequestTypes>ACCOUNT</RateRequestTypes>    <PackageCount>3</PackageCount>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>    <RequestedPackageLineItems>      <GroupPackageCount>1</GroupPackageCount>      <Weight>        <Units>LB</Units>        <Value>0.1</Value>      </Weight>      <Dimensions>        <Length>8</Length>        <Width>4</Width>        <Height>4</Height>        <Units>IN</Units>      </Dimensions>    </RequestedPackageLineItems>  </RequestedShipment></RateRequest>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 21 Aug 2015 18:43:06 GMT
+      Server:
+      - Apache
+      Set-Cookie:
+      - siteDC=wtc; path=/; domain=.fedex.com; expires=Sat, 22-Aug-2015 18:43:06 GMT
+      X-Wily-Servlet:
+      - Encrypt1 GaMcoOotgOSMyoYj73M4dg+5R6RkeaL7OSrxFRsETZM+DiYKUpPm8IdNzJ/c3Wq/SbgsJ1H6E7qf3kYZWzWCoZyfDl7Dw+kKsG1xXPMrfhsyT44wUhmdmWG73Gp6CxM+utnWZf2OYs5u6606vNNaLi1qY8CAYGr9DeK1PwlA082nFg7+SlL4Vw/OhgENCbDogDnuzRqfnq+Bd0+i3jwhig==
+      X-Powered-By:
+      - Servlet/2.5 JSP/2.1
+      X-Wily-Info:
+      - Clear guid=51924CA2CC87E0A10CA6889B06981877
+      Vary:
+      - Accept-Encoding
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - text/xml; charset=utf-8
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <RateReply xmlns="http://fedex.com/ws/rate/v13" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><HighestSeverity>WARNING</HighestSeverity><Notifications><Severity>WARNING</Severity><Source>crs</Source><Code>556</Code><Message>There are no valid services available. </Message><LocalizedMessage>There are no valid services available. </LocalizedMessage></Notifications><Notifications><Severity>NOTE</Severity><Source>crs</Source><Code>929</Code><Message>The service option type SATURDAY_DELIVERY was ignored because it was incompatible with the original request.</Message><LocalizedMessage>The service option type SATURDAY_DELIVERY was ignored because it was incompatible with the original request.</LocalizedMessage><MessageParameters><Id>SERVICE_OPTION_TYPE</Id><Value>SATURDAY_DELIVERY</Value></MessageParameters></Notifications><TransactionDetail><CustomerTransactionId>ActiveShipping</CustomerTransactionId></TransactionDetail><Version><ServiceId>crs</ServiceId><Major>13</Major><Intermediate>0</Intermediate><Minor>0</Minor></Version></RateReply>
+    http_version: 
+  recorded_at: Fri, 21 Aug 2015 18:43:14 GMT
+- request:
+    method: post
+    uri: https://wwwcie.ups.com/ups.app/xml/Rate
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0"?>
+        <AccessRequest>
+          <AccessLicenseNumber>7CE85DED4C9D07AB</AccessLicenseNumber>
+          <UserId>shopifolk</UserId>
+          <Password>Shopify_rocks</Password>
+        </AccessRequest>
+        <?xml version="1.0"?>
+        <RatingServiceSelectionRequest>
+          <Request>
+            <RequestAction>Rate</RequestAction>
+            <RequestOption>Shop</RequestOption>
+          </Request>
+          <PickupType>
+            <Code>01</Code>
+          </PickupType>
+          <CustomerClassification>
+            <Code>01</Code>
+          </CustomerClassification>
+          <Shipment>
+            <Shipper>
+              <Address>
+                <City>Great Bend</City>
+                <StateProvinceCode>KS</StateProvinceCode>
+                <PostalCode>67530</PostalCode>
+                <CountryCode>US</CountryCode>
+                <ResidentialAddressIndicator>true</ResidentialAddressIndicator>
+              </Address>
+            </Shipper>
+            <ShipTo>
+              <Address>
+                <City>kjgkajgksjdf</City>
+                <StateProvinceCode>ZZ</StateProvinceCode>
+                <PostalCode>AAAAA</PostalCode>
+                <CountryCode>US</CountryCode>
+                <ResidentialAddressIndicator>true</ResidentialAddressIndicator>
+              </Address>
+            </ShipTo>
+            <Package>
+              <PackagingType>
+                <Code>02</Code>
+              </PackagingType>
+              <Dimensions>
+                <UnitOfMeasurement>
+                  <Code>IN</Code>
+                </UnitOfMeasurement>
+                <Length>7.874</Length>
+                <Width>3.937</Width>
+                <Height>3.937</Height>
+              </Dimensions>
+              <PackageWeight>
+                <UnitOfMeasurement>
+                  <Code>LBS</Code>
+                </UnitOfMeasurement>
+                <Weight>0.1</Weight>
+              </PackageWeight>
+              <PackageServiceOptions/>
+            </Package>
+            <Package>
+              <PackagingType>
+                <Code>02</Code>
+              </PackagingType>
+              <Dimensions>
+                <UnitOfMeasurement>
+                  <Code>IN</Code>
+                </UnitOfMeasurement>
+                <Length>7.874</Length>
+                <Width>3.937</Width>
+                <Height>3.937</Height>
+              </Dimensions>
+              <PackageWeight>
+                <UnitOfMeasurement>
+                  <Code>LBS</Code>
+                </UnitOfMeasurement>
+                <Weight>0.1</Weight>
+              </PackageWeight>
+              <PackageServiceOptions/>
+            </Package>
+            <Package>
+              <PackagingType>
+                <Code>02</Code>
+              </PackagingType>
+              <Dimensions>
+                <UnitOfMeasurement>
+                  <Code>IN</Code>
+                </UnitOfMeasurement>
+                <Length>7.874</Length>
+                <Width>3.937</Width>
+                <Height>3.937</Height>
+              </Dimensions>
+              <PackageWeight>
+                <UnitOfMeasurement>
+                  <Code>LBS</Code>
+                </UnitOfMeasurement>
+                <Weight>0.1</Weight>
+              </PackageWeight>
+              <PackageServiceOptions/>
+            </Package>
+          </Shipment>
+        </RatingServiceSelectionRequest>
+    headers:
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 21 Aug 2015 18:43:07 GMT
+      Server:
+      - Apache
+      X-Frame-Options:
+      - SAMEORIGIN
+      Pragma:
+      - no-cache
+      Content-Length:
+      - '379'
+      Content-Type:
+      - application/xml
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0"?>
+        <RatingServiceSelectionResponse><Response><ResponseStatusCode>0</ResponseStatusCode><ResponseStatusDescription>Failure</ResponseStatusDescription><Error><ErrorSeverity>Hard</ErrorSeverity><ErrorCode>111286</ErrorCode><ErrorDescription>ZZ is not a valid state for the specified shipment.</ErrorDescription></Error></Response></RatingServiceSelectionResponse>
+    http_version: 
+  recorded_at: Fri, 21 Aug 2015 18:43:15 GMT
+recorded_with: VCR 2.9.3

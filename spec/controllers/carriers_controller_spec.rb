@@ -33,9 +33,9 @@ RSpec.describe CarriersController, type: :controller do
                 "country"=>"US"
                 },
         "destination"=>{
-              "city"=>"SEATTLE",
-              "state"=>"WA",
-              "zip"=>"84105",
+              "city"=>"kjgkajgksjdf",
+              "state"=>"ZZ",
+              "zip"=>"AAAAA",
               "country"=>"US"
             },
         "packages"=>[
@@ -71,11 +71,11 @@ RSpec.describe CarriersController, type: :controller do
       end
     end
 
-    it "responds with 204 when unsuccesful" do
-      VCR.use_cassette('returns unsuccessful status code') do
+    it "responds with empty content when invalid params" do
+      VCR.use_cassette('returns successful with empty content request') do
         post :index, invalid_params, { format: :json }
 
-        expect(response).to be_an_instance_of(ActiveShipping::ResponseError)
+        expect(response.response_code).to eq 204
       end
     end
 

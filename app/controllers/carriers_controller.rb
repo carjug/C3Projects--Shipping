@@ -17,13 +17,24 @@ class CarriersController < ApplicationController
     # if 1 carries returns nil, return @rates but with the carrier as []
     # also return with a code that says incomplete
 
-    # unless @response_ups.nil? || @response_fedex.nil?
-      @rates = [@response_fedex.rates, @response_ups.rates ]
+    if @response_ups.nil? && @response_fedex.nil?
+      flash[:error] = "Nothing was returned"
+    elsif @response_fedex.nil? && @response_ups.nil? == false
+      @rates = [@response_ups.rates]
 
+      flash[:error] = "Fedex not returned"
+    elsif @response_fedex.nil? == false && @response_ups.nil?
+      @rates = [@response_fedex.rates]
+
+      flash[:error] = "UPS not returned"
+    else
+      @rates = [@response_fedex.rates, @response_ups.rates]
+    end
 
     if @rates
       render json: @rates.as_json
     else
+      flash[:error] = "Object empty"
       render json: {}, status: 204
     end
   end
