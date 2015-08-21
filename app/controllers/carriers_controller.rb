@@ -14,7 +14,12 @@ class CarriersController < ApplicationController
     fedex_shipping(origin, destination, packages)
     ups_shipping(origin, destination, packages)
 
-    @rates = [@response_fedex.rates, @response_ups.rates ]
+    # if 1 carries returns nil, return @rates but with the carrier as []
+    # also return with a code that says incomplete
+
+    # unless @response_ups.nil? || @response_fedex.nil?
+      @rates = [@response_fedex.rates, @response_ups.rates ]
+
 
     if @rates
       render json: @rates.as_json
@@ -26,16 +31,19 @@ class CarriersController < ApplicationController
   def fedex_shipping(origin, destination, packages)
     fedex = set_fedex
     begin
-    @response_fedex = fedex.find_rates(origin, destination, packages)
-    rescue
+      @response_fedex = fedex.find_rates(origin, destination, packages)
+    rescue ActiveShipping::ResponseError
       flash[:error] = "No connection established"
     end
   end
 
   def ups_shipping(origin, destination, packages)
     ups = set_ups
-    @response_ups = ups.find_rates(origin, destination, packages)
-
+    begin
+      @response_ups = ups.find_rates(origin, destination, packages)
+    rescue ActiveShipping::ResponseError
+      flash[:error] = "No connection established"
+    end
   end
 
   def set_fedex

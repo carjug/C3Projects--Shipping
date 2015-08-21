@@ -24,16 +24,27 @@ RSpec.describe CarriersController, type: :controller do
         }
     end
 
-  let(:origin_params) do
-    {
-      origin: {
-        city:   "Beverly Hills",
-        state:   "CA",
-        zip:     "90210",
-        country: "US"
-      }
-    }
-  end
+    let(:invalid_params) do
+      {
+        "origin"=>{
+                "city"=>"Great Bend",
+                "state"=>"KS",
+                "zip"=>"67530",
+                "country"=>"US"
+                },
+        "destination"=>{
+              "city"=>"SEATTLE",
+              "state"=>"WA",
+              "zip"=>"84105",
+              "country"=>"US"
+            },
+        "packages"=>[
+            [20, [20, 10, 10]],
+            [20, [20, 10, 10]],
+            [20, [20, 10, 10]]
+            ]
+          }
+      end
 
   describe "set_fedex" do
     it "has valid ENV credentials" do
@@ -62,9 +73,9 @@ RSpec.describe CarriersController, type: :controller do
 
     it "responds with 204 when unsuccesful" do
       VCR.use_cassette('returns unsuccessful status code') do
-        post :index, shipping_params, { format: :json }
+        post :index, invalid_params, { format: :json }
 
-        expect(response.response_code).to eq 204
+        expect(response).to be_an_instance_of(ActiveShipping::ResponseError)
       end
     end
 
